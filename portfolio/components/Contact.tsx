@@ -42,7 +42,8 @@ export default function Contact() {
       await emailjs.send(
         'service_tiab0fw',
         'template_bblt54o',
-        templateParams
+        templateParams,
+        'RtW2OtOKBPnvroPes'
       ).then(
         function (response) {
           console.log('SUCCESS!', response.status, response.text)
