@@ -32,55 +32,44 @@ export default function Contact() {
     setIsSubmitting(true)
 
     try {
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
+
+
+      const emailParams = {
+        name: formData.name,
+        email: formData.email,
         subject: formData.subject,
-        message: formData.message,
-        to_name: 'Daniel',
+        message: formData.message
+      };
+
+      const res = await emailjs.send('service_d0kek0i', 'template_bblt54o', emailParams, 'RtW2OtOKBPnvroPes');
+
+      if (res.status === 200) {
+        toast({
+          title: 'Message Sent',
+          description: "Thanks for reaching out. I'll get back to you soon.",
+          variant: 'default',
+          duration: 3000,
+          className: 'bg-green-50 border-green-200'
+
+        });
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        });
       }
-      await emailjs.send(
-        'service_tiab0fw',
-        'template_bblt54o',
-        templateParams,
-        'RtW2OtOKBPnvroPes'
-      ).then(
-        function (response) {
-          console.log('SUCCESS!', response.status, response.text)
-        },
-        function (error) {
-          console.log('FAILED...', error)
-        }
-      )
-
-      toast({
-        title: 'Message Sent',
-        description: "Thanks for reaching out. I'll get back to you soon.",
-        variant: 'default',
-        duration: 2000,
-        className: 'bg-green-50 border-green-200'
-
-      })
-
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      })
-
-    } catch (e) {
+    } catch (error) {
       toast({
         title: "Something went wrong!",
         description: "Please try again or contact me directly via email.",
         variant: "destructive",
-        duration: 2000,
+        duration: 3000,
       })
     } finally {
       setIsSubmitting(false)
     }
   }
-
 
   return (
     <section id="contact" className="py-20 bg-gray-800">
