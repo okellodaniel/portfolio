@@ -85,7 +85,7 @@ export default function Contact() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Get In Touch</h2>
           <div className="w-20 h-1 bg-red-500 mx-auto mb-8" />
           <p className="text-gray-300 text-lg">
-            Have a project in mind? Let's work together to create something great
+            Have a project in mind? Lets work together to create something great
           </p>
         </motion.div>
 
