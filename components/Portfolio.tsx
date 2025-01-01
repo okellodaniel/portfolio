@@ -92,7 +92,6 @@ export default function Portfolio() {
                                     ))}
                                 </div>
                             </div>
-
                         </motion.div>
                     ))}
                 </div>
