@@ -5,8 +5,82 @@ import { Mail, Phone, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { useToast } from '@/hooks/use-toast'
+import emailjs from '@emailjs/browser'
+import { useState } from 'react'
 
 export default function Contact() {
+  const { toast } = useToast()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_name: 'Daniel',
+      }
+      await emailjs.send(
+        'service_tiab0fw',
+        'template_bblt54o',
+        templateParams
+      ).then(
+        function (response) {
+          console.log('SUCCESS!', response.status, response.text)
+        },
+        function (error) {
+          console.log('FAILED...', error)
+        }
+      )
+
+      toast({
+        title: 'Message Sent',
+        description: "Thanks for reaching out. I'll get back to you soon.",
+        variant: 'default',
+        duration: 2000,
+        className: 'bg-green-50 border-green-200'
+
+      })
+
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      })
+
+    } catch (e) {
+      toast({
+        title: "Something went wrong!",
+        description: "Please try again or contact me directly via email.",
+        variant: "destructive",
+        duration: 2000,
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+
   return (
     <section id="contact" className="py-20 bg-gray-800">
       <div className="container mx-auto px-4">
@@ -56,6 +130,7 @@ export default function Contact() {
           </motion.div>
 
           <motion.form
+            onSubmit={handleSubmit}
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -63,25 +138,45 @@ export default function Contact() {
             className="space-y-4"
           >
             <Input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Your Name"
               className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
+              required
             />
             <Input
+              name="email"
               type="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Your Email"
               className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
+              required
             />
             <Input
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
               placeholder="Subject"
               className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
+              required
             />
             <Textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
               placeholder="Your Message"
               rows={5}
               className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
+              required
             />
-            <Button className="w-full bg-red-500 hover:bg-red-600 text-white">
-              Send Message
+            <Button
+              type="submit"
+              className="w-full bg-red-500 hover:bg-red-600 text-white"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </Button>
           </motion.form>
         </div>

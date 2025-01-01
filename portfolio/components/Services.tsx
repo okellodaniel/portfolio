@@ -16,7 +16,7 @@ const services = [
     },
     {
         icon: Palette,
-        title: ' Design',
+        title: ' Data Insights',
         description: 'Designing intuitive and engaging data journies that provide data insights.'
     },
     {
