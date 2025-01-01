@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react'
 import Particles from 'react-particles'
-import type { Container, Engine } from 'tsparticles-engine'
+import type { Engine } from 'tsparticles-engine'
 import { loadSlim } from 'tsparticles-slim'
 import Navigation from '@/components/Navigation'
 import Hero from '@/components/Hero'
@@ -17,7 +17,7 @@ export default function Home() {
     await loadSlim(engine)
   }, [])
 
-  const particlesLoaded = useCallback(async (container: Container | undefined) => {
+  const particlesLoaded = useCallback(async () => {
     // Particles loaded successfully
   }, [])
 
