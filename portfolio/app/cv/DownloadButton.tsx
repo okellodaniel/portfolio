@@ -67,7 +67,7 @@ const DownloadButton = () => {
         <Button
             onClick={downloadCV}
             variant="outline"
-            className="fixed bottom-8 right-8 shadow-lg"
+            className="fixed bottom-8 right-8 shadow-lg text-black bg-white hover:bg-black-100/20 hover:bg-opacity-80"
         >
             <Download className="mr-2 h-4 w-4" />
             Download Resume
